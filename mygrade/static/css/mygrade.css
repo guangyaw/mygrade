@@ -1,0 +1,9 @@
+/* CSS for MygradeXBlock */
+
+.mygrade_block .count {
+    font-weight: bold;
+}
+
+.mygrade_block p {
+    cursor: pointer;
+}
