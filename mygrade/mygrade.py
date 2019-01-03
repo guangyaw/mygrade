@@ -55,7 +55,7 @@ class MygradeXBlock(XBlock):
         # else:
 
         # child_fragment = self.render(Fragment(self.get_html()), context)
-        context = {'id': self.id}
+        context = {"count": self.count}
         fragment = Fragment(self.system.render_template('static/html/mygrade.html'), context)
         # fragment.add_fragment_resources(child_fragment)
         fragment.add_css(self.resource_string("static/css/mygrade.css"))
