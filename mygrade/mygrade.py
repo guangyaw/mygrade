@@ -54,9 +54,9 @@ class MygradeXBlock(XBlock):
         #     return self._staff_view(context)
         # else:
 
-        child_fragment = self.render(Fragment(self.get_html()), context)
+        # child_fragment = self.render(Fragment(self.get_html()), context)
         fragment = Fragment(self.system.render_template('static/html/mygrade.html'))
-        fragment.add_fragment_resources(child_fragment)
+        # fragment.add_fragment_resources(child_fragment)
         fragment.add_css(self.resource_string("static/css/mygrade.css"))
         fragment.add_javascript_url(self.runtime.local_resource_url(self, 'static/js/src/mygrade.js'))
         fragment.initialize_js('MygradeXBlock')
