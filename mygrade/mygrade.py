@@ -6,6 +6,7 @@ from xblock.fields import Integer, Scope
 # from xblock.fragment import Fragment
 
 from web_fragments.fragment import Fragment
+# from xmodule.x_module import XModule, module_attr, STUDENT_VIEW
 
 
 class MygradeXBlock(XBlock):
@@ -28,17 +29,40 @@ class MygradeXBlock(XBlock):
         return data.decode("utf8")
 
     # TO-DO: change this view to display your data your own way.
-    def student_view(self, context=None):
+    # def student_view(self, context=None):
+    #     """
+    #     The primary view of the MygradeXBlock, shown to students
+    #     when viewing courses.
+    #     """
+    #     html = self.resource_string("static/html/mygrade.html")
+    #     frag = Fragment(html.format(self=self))
+    #     frag.add_css(self.resource_string("static/css/mygrade.css"))
+    #     frag.add_javascript(self.resource_string("static/js/src/mygrade.js"))
+    #     frag.initialize_js('MygradeXBlock')
+    #     return frag
+
+    def student_view(self, context):
         """
-        The primary view of the MygradeXBlock, shown to students
-        when viewing courses.
+        Renders the contents of the chosen condition for students, and all the
+        conditions for staff.
         """
-        html = self.resource_string("static/html/mygrade.html")
-        frag = Fragment(html.format(self=self))
-        frag.add_css(self.resource_string("static/css/mygrade.css"))
-        frag.add_javascript(self.resource_string("static/js/src/mygrade.js"))
-        frag.initialize_js('MygradeXBlock')
-        return frag
+        # if self.child is None:
+        #     # raise error instead?  In fact, could complain on descriptor load...
+        #     return Fragment(content=u"<div>Nothing here.  Move along.</div>")
+        #
+        # if self.system.user_is_staff:
+        #     return self._staff_view(context)
+        # else:
+        child_fragment = self.child.render(Fragment(self.get_html()), context)
+        fragment = Fragment(self.system.render_template('static/html/mygrade.html', {
+            'child_content': child_fragment.content,
+            'child_id': self.child.scope_ids.usage_id,
+        }))
+        fragment.add_fragment_resources(child_fragment)
+        fragment.add_css(self.resource_string("static/css/mygrade.css"))
+        fragment.add_javascript_url(self.runtime.local_resource_url(self, 'static/js/src/mygrade.js'))
+        fragment.initialize_js('MygradeXBlock')
+        return fragment
 
     # TO-DO: change this handler to perform your own actions.  You may need more
     # than one handler, or you may not need any handlers at all.
