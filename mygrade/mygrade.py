@@ -29,41 +29,17 @@ class MygradeXBlock(XBlock):
         return data.decode("utf8")
 
     # TO-DO: change this view to display your data your own way.
-    # def student_view(self, context=None):
-    #     """
-    #     The primary view of the MygradeXBlock, shown to students
-    #     when viewing courses.
-    #     """
-    #     html = self.resource_string("static/html/mygrade.html")
-    #     frag = Fragment(html.format(self=self))
-    #     frag.add_css(self.resource_string("static/css/mygrade.css"))
-    #     frag.add_javascript(self.resource_string("static/js/src/mygrade.js"))
-    #     frag.initialize_js('MygradeXBlock')
-    #     return frag
-
-    def student_view(self, context):
+    def student_view(self, context=None):
         """
-        Renders the contents of the chosen condition for students, and all the
-        conditions for staff.
+        The primary view of the MygradeXBlock, shown to students
+        when viewing courses.
         """
-        # if self.child is None:
-        #     # raise error instead?  In fact, could complain on descriptor load...
-        #     return Fragment(content=u"<div>Nothing here.  Move along.</div>")
-        #
-        # if self.system.user_is_staff:
-        #     return self._staff_view(context)
-        # else:
-
-        # child_fragment = self.render(Fragment(self.get_html()), context)
-        # context = {"count": self.count}
         html = self.resource_string("static/html/mygrade.html")
-        # fragment = Fragment(html.format(self=self), context))
-        fragment = Fragment(html.format(self=self))
-        # fragment.add_fragment_resources(child_fragment)
-        fragment.add_css(self.resource_string("static/css/mygrade.css"))
-        fragment.add_javascript_url(self.runtime.local_resource_url(self, 'static/js/src/mygrade.js'))
-        fragment.initialize_js('MygradeXBlock')
-        return fragment
+        frag = Fragment(html.format(self=self))
+        frag.add_css(self.resource_string("static/css/mygrade.css"))
+        frag.add_javascript(self.resource_string("static/js/src/mygrade.js"))
+        frag.initialize_js('MygradeXBlock')
+        return frag
 
     # TO-DO: change this handler to perform your own actions.  You may need more
     # than one handler, or you may not need any handlers at all.
